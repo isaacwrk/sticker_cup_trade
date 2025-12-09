@@ -10,8 +10,7 @@ fs.mkdirSync(dbDir, { recursive: true })
 const sqliteFile = path.join(dbDir, 'db.sqlite3')
 
 const dbConfig = defineConfig({
-  // decide a connection via ENV: sqlite (dev) ou pg (prod)
-  connection: env.get('DB_CONNECTION') || 'sqlite',
+  connection: env.get('NODE_ENV') === 'production' ? 'pg' : env.get('DB_CONNECTION', 'sqlite'),
 
   connections: {
     sqlite: {
@@ -29,11 +28,11 @@ const dbConfig = defineConfig({
     pg: {
       client: 'pg',
       connection: {
-        host: env.get('PGHOST'),
-        port: env.get('PGPORT') ? Number(env.get('PGPORT')) : undefined,
-        user: env.get('POSTGRES_USER'),
-        password: env.get('POSTGRES_PASSWORD'),
-        database: env.get('PGDATABASE'),
+        host: env.get('DB_HOST'),
+        port: env.get('DB_PORT') ? Number(env.get('DB_PORT')) : 5432,
+        user: env.get('DB_USER'),
+        password: env.get('DB_PASSWORD'),
+        database: env.get('DB_DATABASE'),
       },
       migrations: {
         naturalSort: true,
