@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/Isaac/Desktop/projects/sticker-trade/frontend/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
