@@ -29,11 +29,11 @@ const dbConfig = defineConfig({
     pg: {
       client: 'pg',
       connection: {
-        host: env.get('PG_HOST'),
-        port: env.get('PG_PORT') ? Number(env.get('PG_PORT')) : undefined,
-        user: env.get('PG_USER'),
-        password: env.get('PG_PASSWORD'),
-        database: env.get('PG_DB_NAME'),
+        host: env.get('PGHOST'),
+        port: env.get('PGPORT') ? Number(env.get('PGPORT')) : undefined,
+        user: env.get('POSTGRES_USER'),
+        password: env.get('POSTGRES_PASSWORD'),
+        database: env.get('PGDATABASE'),
       },
       migrations: {
         naturalSort: true,
