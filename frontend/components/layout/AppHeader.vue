@@ -6,7 +6,21 @@
     </NuxtLink>
 
     <nav class="nav" v-if="auth.user">
-      <span>Saldo: R$ {{ auth.user.balance.toFixed(2) }}</span>
+      <div class="balance">
+        <span class="balance-label">Saldo:</span>
+        <span class="balance-amount">R$ <span v-if="showBalance">{{ auth.user.balance.toFixed(2) }}</span><span v-else>•••••</span></span>
+        <button class="eye-btn" @click="toggleBalance" :aria-pressed="showBalance" :aria-label="showBalance ? 'Ocultar saldo' : 'Exibir saldo'">
+          <svg v-if="showBalance" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 2l20 20"></path>
+            <path d="M9.88 9.88a3 3 0 0 0 4.24 4.24"></path>
+            <path d="M1 12s4-7 11-7c2.03 0 3.92.4 5.65 1.1"></path>
+          </svg>
+        </button>
+      </div>
       <NuxtLink to="/inventory" class="nav-link">Meu inventário</NuxtLink>
       <NuxtLink to="/" class="nav-link">Figurinhas</NuxtLink>
       <NuxtLink to="/cart" class="nav-link">
@@ -34,6 +48,14 @@ function logout() {
   auth.clear()
   router.push('/login')
 }
+import { ref } from 'vue'
+
+const showBalance = ref(false)
+
+function toggleBalance() {
+  showBalance.value = !showBalance.value
+}
+
 </script>
 
 <style scoped>
@@ -106,4 +128,33 @@ function logout() {
   background: var(--accent);
   color: #1f2933;
 }
+
+.balance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.12);
+}
+.balance-label {
+  font-size: 0.85rem;
+  color: var(--muted, #cbd5e1);
+}
+.balance-amount {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.eye-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0.15rem;
+  margin-left: 0.15rem;
+  color: var(--text);
+  cursor: pointer;
+}
+.eye-btn svg { display: block; }
 </style>
